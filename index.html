@@ -12,15 +12,24 @@
 <div id="msg"><div class="card">
   <h2>Happy Birthday! 💙</h2>
   <p> Hi, baby! :D </p>
-  <p> This is one of my gifts to you and I hope you like it! I was thinking what kind of gift should I give to you that over time, it will still be there and 
-      I thought of this hehe. I just want you to know that I'm so happy that you came into my life. You came to me when everything feels heavy 
+  <p> This is one of my gifts to you and I hope you like it! I was thinking what kind of gift should I give to you that over time, will still be there and 
+      I thought of this hehe. I just want you to know that I'm so happy that I met you. You came to me when everything feels heavy 
       and when I felt like I'm really lost. I am like this heart that burst whenever you're near and do things for me. I couldn't ask for more and couldn't get enough! 
       I want you to know that I'm here for you, always. When things get tough, when there's something you want to say, when something's bothering you, 
-      when you achieve something, when you're sad, and when you're happy, I'll be there for you for as long as you want. 
-      To more laughs, foodtrips, late-night walks, star gazing, memories, and hugs with you! I love you, baby and happy birthday! 
+      when you achieve something, when you're sad, when you're tired and when you're happy, I'll be there for you for as long as you want. 
+      To more laughs, foodtrips, late-night walks, star gazing, memories, and hugs with you, my love! I love you, baby and happy birthday! 
   </p>
   <small>tap anywhere to close</small>
-</div></div>
+</div>
+<audio id="bg-music" src="Love Is.mp3" loop></audio>
 <script src="js.js"></script>
+<script>
+  window.addEventListener('click', () => {
+    const music = document.getElementById('bg-music');
+    if (music.paused) {
+      music.play().catch(error => console.log("Playback blocked:", error));
+    }
+  });
+</script>
 </body>
 </html>
