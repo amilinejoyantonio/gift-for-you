@@ -1,0 +1,14 @@
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+  #hint { position: fixed; left: 0; right: 0; top: 92%;
+    text-align: center; font: 13px system-ui, sans-serif; color: #60a5fa; opacity: .7; pointer-events: none; }
+  #msg { position: fixed; inset: 0; display: flex; align-items: flex-start; justify-content: center;
+    overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y;
+    background: none; opacity: 0; pointer-events: none; transition: opacity .25s; padding: calc(env(safe-area-inset-top, 0px) + 24px) 24px 24px; box-sizing: border-box; }
+  #msg.show { opacity: 1; pointer-events: auto; }
+  #msg .card { max-width: 320px; flex: 0 0 auto; margin: 0 auto; text-align: center; color: #dbeafe; font: 17px/1.6 Georgia, serif;
+    padding: 28px 24px; border-radius: 18px; background: rgba(15,30,70,.7);
+    border: 1px solid #3b82f6; box-shadow: 0 0 30px #2563eb99; transform: scale(.9); transition: transform .25s; }
+  #msg.show .card { transform: scale(1); }
+  #msg h2 { margin: 0 0 10px; font-size: 26px; color: #93c5fd; }
+  #msg small { display: block; margin-top: 14px; font: 12px system-ui, sans-serif; color: #60a5fa; }
