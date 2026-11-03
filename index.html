@@ -24,15 +24,30 @@
 <audio id="bg-music" src="love.mp3" loop></audio>
 <script src="js.js"></script>
 <script>
+  const music = document.getElementById('bg-music');
+  const msgBox = document.getElementById("msg");
+  let lastTap = 0;
+
   function playMusic() {
-    const music = document.getElementById('bg-music');
     if (music && music.paused) {
       music.play().catch(error => console.log("Playback blocked:", error));
     }
   }
 
-  // Triggers music only when double-clicking/tapping the heart/message container
-  document.getElementById("msg").addEventListener("dblclick", playMusic);
+  // Para sa desktop at laptop (Mouse Double-Click)
+  msgBox.addEventListener("dblclick", playMusic);
+
+  // Para sa mga mobile phones (Mobile Double-Tap Fix)
+  msgBox.addEventListener("touchend", function (e) {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    
+    if (tapLength < 300 && tapLength > 0) {
+      playMusic(); // Tumutugtog agad kapag mabilis ang double tap
+      e.preventDefault(); 
+    }
+    lastTap = currentTime;
+  });
 </script>
 </body>
 </html>
