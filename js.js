@@ -108,6 +108,50 @@ let pitch = 0, lastTap = 0;
 let angle = 0, idleAngle = 0, idlePhase = 0, lastFrameTime = 0, messageTimer;
 const msg = document.getElementById("msg");
 
+/* ---------------- MUSIC ---------------- */
+const music = document.getElementById("bg-music");
+let audioUnlocked = false;
+let musicStarted = false;
+
+// Phones only allow audio after a touch. On the very first touch we
+// "warm up" the audio silently so the double tap can start it instantly.
+function unlockAudio() {
+  if (audioUnlocked || !music) return;
+  audioUnlocked = true;
+  music.muted = true;
+  const p = music.play();
+  if (p) {
+    p.then(() => {
+      if (!musicStarted) {
+        music.pause();
+        music.currentTime = 0;
+      }
+      music.muted = false;
+    }).catch(() => {
+      audioUnlocked = false;
+      music.muted = false;
+    });
+  }
+}
+
+function playMusic() {
+  if (!music) return;
+  musicStarted = true;
+  music.muted = false;
+  music.volume = 0.8;
+  music.currentTime = 0;
+  const p = music.play();
+  if (p) p.catch(err => console.log("Music blocked:", err));
+}
+
+// Pause when the page is hidden (switching apps/tabs), resume when back.
+document.addEventListener("visibilitychange", () => {
+  if (!music || !musicStarted) return;
+  if (document.hidden) music.pause();
+  else music.play().catch(() => {});
+});
+/* --------------------------------------- */
+
 function heartUnit() {
   return Math.min(width * 0.98 / 32, height * 0.88 / 40);
 }
@@ -145,25 +189,10 @@ function hitHeart(px, py) {
 }
 
 function showMessage() {
-  const music = document.getElementById('bg-music');
-  
-  // Force start audio engine bypass
-  if (music) {
-    music.muted = false; 
-    const playPromise = music.play();
-    
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        console.log("Music is playing successfully!");
-      }).catch(error => {
-        console.log("Playback failed, attempting direct initialization...", error);
-        // Fallback context recovery
-        music.play();
-      });
-    }
-  }
-
   if (msg.classList.contains("show")) return;
+
+  playMusic(); // starts right as you double tap
+
   clearTimeout(messageTimer);
 
   const burst = (count) => {
@@ -193,6 +222,7 @@ msg.addEventListener("pointerup", e => {
 });
 
 addEventListener("pointerdown", e => {
+  unlockAudio(); // first touch anywhere unlocks audio for phones
   if (msg.classList.contains("show")) return;
   const onHeart = hitHeart(e.clientX, e.clientY);
   dragging = onHeart;
