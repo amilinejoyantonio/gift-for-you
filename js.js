@@ -145,9 +145,22 @@ function hitHeart(px, py) {
 }
 
 function showMessage() {
-   const music = document.getElementById('bg-music');
-  if (music && music.paused) {
-    music.play().catch(error => console.log("Playback blocked:", error));
+  const music = document.getElementById('bg-music');
+  
+  // Force start audio engine bypass
+  if (music) {
+    music.muted = false; 
+    const playPromise = music.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log("Music is playing successfully!");
+      }).catch(error => {
+        console.log("Playback failed, attempting direct initialization...", error);
+        // Fallback context recovery
+        music.play();
+      });
+    }
   }
 
   if (msg.classList.contains("show")) return;
@@ -159,14 +172,13 @@ function showMessage() {
   };
 
   burst(4000);
-  setTimeout(() => burst(3000), 90;
+  setTimeout(() => burst(3000), 90);
   setTimeout(() => burst(3000), 180);
 
   messageTimer = setTimeout(() => {
     msg.classList.add("show");
   }, 3000);
 }
-
 
 let messageTouchStartX = 0, messageTouchStartY = 0;
 msg.addEventListener("pointerdown", e => {
