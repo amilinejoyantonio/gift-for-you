@@ -141,14 +141,12 @@ function playMusic() {
   music.volume = 0.8;
   music.currentTime = 0;
   const p = music.play();
-  if (p) p.catch(err => console.log("Music blocked:", err));
+  if (p) p.catch(err => alert("Music error: " + err.name + " - " + err.message));
 }
 
-// Pause when the page is hidden (switching apps/tabs), resume when back.
-document.addEventListener("visibilitychange", () => {
-  if (!music || !musicStarted) return;
-  if (document.hidden) music.pause();
-  else music.play().catch(() => {});
+music.addEventListener("error", () => {
+  const codes = {1: "aborted", 2: "network problem", 3: "bad/unsupported audio file", 4: "file not found or unsupported format"};
+  alert("Audio file problem: " + (codes[music.error.code] || "unknown"));
 });
 /* --------------------------------------- */
 
