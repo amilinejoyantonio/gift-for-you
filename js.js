@@ -145,6 +145,11 @@ function hitHeart(px, py) {
 }
 
 function showMessage() {
+   const music = document.getElementById('bg-music');
+  if (music && music.paused) {
+    music.play().catch(error => console.log("Playback blocked:", error));
+  }
+
   if (msg.classList.contains("show")) return;
   clearTimeout(messageTimer);
 
@@ -152,14 +157,16 @@ function showMessage() {
     const origin = holeCenter();
     spawnScreenBurst(origin.x, origin.y, count);
   };
+
   burst(4000);
-  setTimeout(() => burst(3000), 90);
+  setTimeout(() => burst(3000), 90;
   setTimeout(() => burst(3000), 180);
 
   messageTimer = setTimeout(() => {
     msg.classList.add("show");
   }, 3000);
 }
+
 
 let messageTouchStartX = 0, messageTouchStartY = 0;
 msg.addEventListener("pointerdown", e => {
