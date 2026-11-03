@@ -21,15 +21,17 @@
   </p>
   <small>tap anywhere to close</small>
 </div>
-<audio id="bg-music" src="love.mp3" loop></audio>
+<audio id="bg-music" src="https://pixeldrain.com" loop></audio>
 <script src="js.js"></script>
 <script>
-  window.addEventListener('click', () => {
+  function playMusic() {
     const music = document.getElementById('bg-music');
-    if (music.paused) {
+    if (music && music.paused) {
       music.play().catch(error => console.log("Playback blocked:", error));
     }
-  });
+  }
+  window.addEventListener('click', playMusic);
+  window.addEventListener('touchstart', playMusic);
 </script>
 </body>
 </html>
